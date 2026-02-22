@@ -1,5 +1,5 @@
 # Bank Product Usage Profiling with AI
-##Clusterização + Propensão + Dinâmica Temporal (Markov)##
+#Clusterização + Propensão + Dinâmica Temporal (Markov)
 
 Projeto de portfólio demonstrando uma arquitetura de Inteligência Artificial para identificação de perfis de utilização de produtos bancários, combinando:
 
@@ -138,11 +138,8 @@ docs/
 Essa arquitetura permite:
 
 Segmentação automática de clientes
-
 Priorização de ofertas personalizadas
-
 Identificação de trajetórias de risco
-
 Modelagem de tempo até adoção de produto
 
 📌 Observação
