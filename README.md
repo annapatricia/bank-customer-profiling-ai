@@ -1,4 +1,5 @@
 # Bank Product Usage Profiling with AI
+##Clusterização + Propensão + Dinâmica Temporal (Markov)##
 
 Projeto de portfólio demonstrando uma arquitetura de Inteligência Artificial para identificação de perfis de utilização de produtos bancários, combinando:
 
@@ -16,8 +17,8 @@ Demonstrar como técnicas de Machine Learning podem ser utilizadas para:
 - Identificar perfis latentes de clientes
 - Estimar probabilidade de adoção de produtos financeiros
 - Modelar o tempo até contratação
-- Apoiar estratégias de cross-sell e gestão de risco
-
+- Modelar a dinâmica temporal de migração entre estados comportamentais
+ 
 Os dados utilizados são sintéticos, porém estruturados de forma realista.
 
 ---
@@ -40,12 +41,33 @@ Os dados utilizados são sintéticos, porém estruturados de forma realista.
    - Identificação de perfis latentes
    - Avaliação via Silhouette Score
 
-4. **Markov (Transição de Perfis)** *(em construção)*
+5. **Modelo de Propensão**
+   - Target: adoção de produto de investimento em até 3 meses
+   - Features: comportamento inicial (janela 1–3 meses)
+   - Inclusão do cluster como variável latente
+📌 Métricas avaliadas:
+   - AUC
+   - Recall@10%
+   - Recall@20%
+Saída:
+   - propensity_metrics.csv
+   - propensity_scores.csv
+  
+6. **Dinâmica Temporal (Cadeias de Markov)**
+   - Definição de estados comportamentais mensais (Low / Medium / High)
+   - Estimativa da matriz de transição:
 
-5. **Modelo de Propensão** *(em construção)*
+𝑃(𝑆𝑡𝑎𝑡𝑒𝑡+1∣𝑆𝑡𝑎𝑡𝑒𝑡)
 
-6. **Survival Analysis** *(em construção)*
+   - Cálculo da distribuição estacionária (steady state)
 
+📌 Saídas:
+   - markov_transition_matrix.csv
+   - markov_steady_state.csv
+
+  
+7. **Survival Analysis**
+ 
 ---
 
 ## 👥 Perfis Identificados
@@ -53,10 +75,7 @@ Os dados utilizados são sintéticos, porém estruturados de forma realista.
 Resumo disponível em:
 
 reports/cluster_profile_cards.md
-
-
 Os clusters representam perfis distintos baseados em:
-
 - Renda
 - Intensidade de uso digital
 - Exposição a crédito
@@ -77,6 +96,13 @@ Exemplo de perfis identificados:
 - Silhouette ≈ 0.22
 
 Valor consistente com segmentações reais em dados financeiros.
+
+---
+📊 Principais Insights
+ - Convergência estrutural para estado intermediário (Medium)
+ - Estados extremos apresentam baixa estabilidade temporal
+ - Modelo de propensão requer engenharia adicional de variáveis para ganho de separabilidade
+ - Integração entre cluster + propensão + Markov permite visão completa do ciclo de vida do cliente
 
 ---
 
