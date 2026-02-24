@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
 
 import numpy as np
 import pandas as pd
@@ -45,15 +47,15 @@ def load_or_train_kmeans(k: int = 4, seed: int = 42):
     df = pd.read_csv(feats_path)
 
     train_cols = [
-        "age",
-        "income",
-        "mean_balance",
-        "std_balance",
-        "mean_card_spend",
-        "mean_utilization",
-        "mean_pix",
-        "late_payment_rate",
-    ]
+    "age",
+    "income",
+    "m12_mean_balance",
+    "m12_std_balance",
+    "m12_mean_card_spend",
+    "m12_mean_utilization",
+    "m12_mean_pix",
+    "m12_late_payment_rate",
+]
 
     X = df[train_cols].copy()
 
@@ -114,17 +116,17 @@ def assign_clusters_monthly(df_month: pd.DataFrame, scaler: StandardScaler, km: 
       late_payment_rate <- late_payment (0/1)
     """
     X = pd.DataFrame(
-        {
-            "age": df_month["age"].astype(float),
-            "income": df_month["income"].astype(float),
-            "mean_balance": df_month["balance"].astype(float),
-            "std_balance": np.zeros(len(df_month), dtype=float),
-            "mean_card_spend": df_month["card_spend"].astype(float),
-            "mean_utilization": df_month["utilization"].astype(float),
-            "mean_pix": df_month["pix_count"].astype(float),
-            "late_payment_rate": df_month["late_payment"].astype(float),
-        }
-    )
+    {
+        "age": df_month["age"].astype(float),
+        "income": df_month["income"].astype(float),
+        "m12_mean_balance": df_month["balance"].astype(float),
+        "m12_std_balance": np.zeros(len(df_month), dtype=float),
+        "m12_mean_card_spend": df_month["card_spend"].astype(float),
+        "m12_mean_utilization": df_month["utilization"].astype(float),
+        "m12_mean_pix": df_month["pix_count"].astype(float),
+        "m12_late_payment_rate": df_month["late_payment"].astype(float),
+    }
+)
 
     Xs = scaler.transform(X)
     out = df_month.copy()
@@ -182,13 +184,22 @@ def main() -> None:
 
     # 4) Markov
     counts, probs = compute_markov(df_clusters)
-    counts.to_csv("reports/tables/markov_transition_counts.csv")
-    probs.to_csv("reports/tables/markov_transition_matrix.csv")
+    print("COUNTS TYPE:", type(counts), "SHAPE:", getattr(counts, "shape", None))
+    print("COUNTS HEAD:\n", counts.head() if hasattr(counts, "head") else counts)
+    
 
-    print("Saved: data/processed/customer_monthly_with_cluster.csv")
-    print("Saved: reports/tables/markov_transition_counts.csv")
-    print("Saved: reports/tables/markov_transition_matrix.csv")
+    out_dir = ROOT / "reports" / "tables"
+    out_dir.mkdir(parents=True, exist_ok=True)
 
+    counts_path = out_dir / "markov_transition_counts.csv"
+    probs_path  = out_dir / "markov_transition_matrix.csv"
+
+    counts.to_csv(counts_path)
+    probs.to_csv(probs_path)
+
+    print("CWD:", Path.cwd().resolve())
+    print("Counts saved to:", counts_path.resolve(), "| exists:", counts_path.exists(), "| shape:", getattr(counts, "shape", None))
+    print("Probs  saved to:", probs_path.resolve(),  "| exists:", probs_path.exists(),  "| shape:", getattr(probs, "shape", None))
 
 if __name__ == "__main__":
     main()
