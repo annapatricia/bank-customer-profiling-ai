@@ -3,12 +3,24 @@
 
 Demo (Streamlit Cloud): https://bank-customer-profiling-ai-rj8rbhntnd2r6ksq5cb37s.streamlit.app
 
-Projeto de portfólio demonstrando uma arquitetura de Inteligência Artificial para identificação de perfis de utilização de produtos bancários, combinando:
+---
 
-- Segmentação comportamental (não supervisionado)
-- Dinâmica de perfis (Markov)
+## Executive Summary
+
+Solução analítica end-to-end para perfilamento comportamental de clientes no setor bancário, combinando:
+
+- Aprendizado não supervisionado (Clusterização) para segmentação comportamental  
+- Aprendizado supervisionado (Modelagem de Propensão) para previsão de adoção de produtos  
+- Cadeias de Markov para modelagem das transições de estado dos clientes ao longo do tempo  
 - Modelo de propensão por produto (supervisionado)
 - Survival Analysis (tempo até adoção)
+ 
+A solução permite tomada de decisão orientada por dados para:
+
+- Estratégia de produtos  
+- Direcionamento de campanhas de Cross-sell e Up-sell  
+- Monitoramento de risco  
+- Análise do ciclo de vida do cliente  
 
 ---
 
