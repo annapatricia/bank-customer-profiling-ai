@@ -1,6 +1,8 @@
 # Bank Product Usage Profiling with AI
 #Clusterização + Propensão + Dinâmica Temporal (Markov)
 
+Demo (Streamlit Cloud): https://bank-customer-profiling-ai-rj8rbhntnd2r6ksq5cb37s.streamlit.app
+
 Projeto de portfólio demonstrando uma arquitetura de Inteligência Artificial para identificação de perfis de utilização de produtos bancários, combinando:
 
 - Segmentação comportamental (não supervisionado)
