@@ -99,19 +99,474 @@ Cada linha representa **um cliente**, contendo features agregadas que descrevem 
 
 
 
-## 3. Clusterização (src.cluster_profiles)
-- Objetivo:
-- Pré-processamento:
-- Modelo:
-- Métrica:
-- Saídas:
-- Interpretação dos clusters:
+## 3. Clusterização (`src/cluster_profiles`)
 
-## 4. Markov (src.markov_transitions)
-...
+### Objetivo
+Segmentar os clientes em **perfis comportamentais** com base em características financeiras e transacionais, permitindo identificar grupos com padrões semelhantes de renda, saldo, uso de crédito, comportamento digital e risco.
 
-## 5. Propensão (src.propensity_model)
-...
+Essa etapa apoia análises de **segmentação de clientes**, **estratégias de cross-sell/up-sell** e priorização comercial.
+
+---
+
+### Pré-processamento
+O script utiliza como entrada o dataset de features agregadas por cliente:
+
+```text
+data/processed/customer_features.csv
+
+As variáveis selecionadas para clusterização são:
+
+age
+
+income
+
+mean_balance
+
+std_balance
+
+mean_card_spend
+
+mean_utilization
+
+mean_pix
+
+late_payment_rate
+
+Antes do treinamento, essas features passam por padronização com StandardScaler, etapa essencial para métodos baseados em distância, como o K-Means, garantindo que variáveis em escalas diferentes não dominem a formação dos grupos.
+
+Modelo
+
+Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
+
+n_clusters = 4
+
+n_init = 20
+
+random_state = 42
+
+O modelo divide os clientes em 4 clusters, atribuindo cada cliente ao grupo cujo centroide seja mais próximo no espaço das features padronizadas.
+
+Métrica
+
+A qualidade da clusterização é avaliada pela métrica Silhouette Score, calculada sobre os dados padronizados.
+
+Essa métrica mede o quanto os clientes estão:
+
+próximos do próprio cluster
+
+distantes dos demais clusters
+
+Quanto maior o valor, melhor a separação entre os grupos.
+
+Saídas
+
+O script gera os seguintes arquivos:
+
+Dados processados
+
+data/processed/customer_features_with_cluster.csv
+Dataset de clientes com o rótulo numérico do cluster
+
+data/processed/customer_features_with_cluster_named.csv
+Dataset de clientes com o rótulo numérico e o nome interpretável do cluster
+
+Tabelas de resumo
+
+reports/tables/cluster_summary.csv
+Médias das variáveis por cluster
+
+reports/tables/cluster_profile_cards.csv
+Tabela com nome do perfil, quantidade de clientes e descrição interpretativa
+
+Relatórios em Markdown
+
+reports/cluster_report.md
+Relatório resumido da clusterização, incluindo o valor de silhouette e a tabela de médias por cluster
+
+reports/cluster_profile_cards.md
+Cartões descritivos dos perfis identificados
+
+Interpretação dos clusters
+
+Após a clusterização, os grupos recebem nomes descritivos com base em heurísticas simples sobre renda, risco, uso digital e uso de crédito.
+
+Os perfis possíveis são:
+
+Digital Crédito Intensivo
+Alto uso digital (PIX) e maior risco de atraso. Perfil mais sensível a ações de gestão de crédito e prevenção.
+
+Alta Renda Estável
+Clientes com maior renda e menor risco. Perfil com potencial para investimentos e ofertas premium.
+
+Digital Estável
+Alto uso digital combinado com baixa inadimplência. Perfil promissor para expansão de portfólio, como investimentos e seguros.
+
+Conservador Tradicional
+Uso digital mais moderado e baixo risco. Perfil mais tradicional, com boa aderência a produtos simples e ações de educação financeira.
+
+Resultado esperado
+
+Ao final da etapa, cada cliente passa a ter um perfil comportamental identificado, facilitando:
+
+segmentação de base
+
+personalização de ofertas
+
+análise estratégica de clientes
+
+apoio à tomada de decisão orientada por dados
+
+## 4. Cadeias de Markov (`src/markov_transitions`)
+
+### Objetivo
+Modelar a **dinâmica de transição entre perfis de clientes ao longo do tempo**, utilizando uma **cadeia de Markov** baseada nos clusters identificados anteriormente.
+
+Essa etapa permite analisar **como os clientes evoluem entre diferentes perfis comportamentais mês a mês**, identificando padrões de estabilidade ou mudança entre segmentos.
+
+---
+
+### Entradas
+O script utiliza como entrada o dataset transacional mensal gerado na etapa de geração de dados:
+data/raw/transactions_monthly.csv
+
+
+Esse dataset contém **uma linha por cliente por mês**, incluindo informações de saldo, gastos, utilização de crédito e comportamento digital.
+
+Caso ainda não exista um modelo de cluster salvo, o script também utiliza:
+data/raw/transactions_monthly.csv
+
+Esse dataset contém **uma linha por cliente por mês**, incluindo informações de saldo, gastos, utilização de crédito e comportamento digital.
+data/processed/customer_features.csv
+
+
+para treinar o modelo **K-Means** e o **StandardScaler**, que podem ser armazenados em:
+models/scaler.pkl
+models/kmeans.pkl
+
+
+---
+
+### Etapas do processamento
+
+#### 1. Construção da tabela mensal
+Os dados brutos são organizados em uma tabela contendo:
+
+- `customer_id`
+- `month`
+- `age`
+- `income`
+- `balance`
+- `card_spend`
+- `utilization`
+- `pix_count`
+- `late_payment`
+
+Cada linha representa **o estado financeiro de um cliente em determinado mês**.
+
+---
+
+#### 2. Atribuição de clusters por mês
+O modelo **K-Means** previamente treinado é aplicado aos dados mensais.
+
+Como o modelo foi treinado em features agregadas, é utilizada uma **aproximação compatível**, onde métricas mensais são utilizadas como proxies:
+
+| Feature do modelo | Variável mensal utilizada |
+|------|------|
+| `mean_balance` | `balance` |
+| `std_balance` | 0 (aproximação) |
+| `mean_card_spend` | `card_spend` |
+| `mean_utilization` | `utilization` |
+| `mean_pix` | `pix_count` |
+| `late_payment_rate` | `late_payment` |
+
+O resultado é um dataset onde **cada cliente possui um cluster em cada mês**.
+
+Arquivo gerado:
+data/processed/customer_monthly_with_cluster.csv
+
+
+---
+
+### Modelo
+A dinâmica dos clusters é modelada utilizando **Cadeias de Markov de primeira ordem**, onde a probabilidade de transição depende apenas do estado atual.
+
+Formalmente:
+
+\[
+P(C_{t+1} | C_t)
+\]
+
+ou seja, a probabilidade de um cliente estar no cluster \(C_{t+1}\) dado que estava no cluster \(C_t\).
+
+---
+
+### Saídas
+
+#### Tabela de transições (contagem)
+reports/tables/markov_transition_counts.csv
+
+
+Contém o número de transições observadas entre clusters.
+
+Exemplo:
+
+| state | next_state | count |
+|------|------|------|
+| 0 | 0 | ... |
+| 0 | 1 | ... |
+| 1 | 2 | ... |
+
+---
+
+#### Matriz de probabilidades de transição
+reports/tables/markov_transition_matrix.csv
+
+
+Cada linha representa um **estado atual (cluster)** e cada coluna o **estado seguinte**, contendo as probabilidades:
+
+\[
+P(cluster_{t+1} | cluster_t)
+\]
+
+---
+
+### Interpretação
+A matriz de transição permite identificar:
+
+- **estabilidade dos clusters**  
+  (clientes que permanecem no mesmo perfil)
+
+- **migração entre perfis**  
+  (ex: clientes que evoluem de perfil tradicional para digital)
+
+- **trajetórias de comportamento financeiro**
+
+Essas informações podem apoiar análises de:
+
+- ciclo de vida do cliente
+- evolução de comportamento financeiro
+- impacto de estratégias comerciais
+- previsão de mudanças de perfil
+
+
+## 5. Propensão (`src/propensity_model`)
+
+### Objetivo
+Treinar um modelo de **propensão à adoção de investimento**, estimando a probabilidade de cada cliente aderir a um produto de investimento com base em seu perfil financeiro, comportamento transacional e cluster comportamental.
+
+Essa etapa apoia ações de:
+- segmentação comercial
+- priorização de clientes
+- campanhas de cross-sell
+- recomendação de produtos financeiros
+
+---
+
+### Entradas
+O script utiliza como base principal o dataset de features com cluster já atribuído.
+
+Prioridade de leitura:
+
+```text
+data/processed/customer_features_with_cluster_named.csv
+
+uma opção alternativa seria:
+ou, caso o arquivo acima não exista:
+Esses arquivos devem ser gerados previamente nas etapas:
+
+src/build_features
+
+src/cluster_profiles
+
+Target
+
+A variável alvo do modelo é:
+
+adopted_ever — indica se o cliente adotou investimento em algum momento do período observado
+
+Trata-se de um problema de classificação binária:
+
+1 = cliente adotou investimento
+
+0 = cliente não adotou investimento
+
+Features utilizadas
+
+O modelo utiliza variáveis numéricas relacionadas ao perfil do cliente, comportamento financeiro e cluster.
+
+Variáveis numéricas
+
+age
+
+income
+
+m12_mean_balance
+
+m12_std_balance
+
+m12_mean_card_spend
+
+m12_mean_utilization
+
+m12_mean_pix
+
+m12_late_payment_rate
+
+m3_mean_balance
+
+m3_std_balance
+
+m3_mean_card_spend
+
+m3_mean_utilization
+
+m3_mean_pix
+
+m3_late_payment_rate
+
+cluster
+
+Variável categórica opcional
+
+cluster_name
+
+Observação: o script utiliza apenas as colunas que estiverem disponíveis no dataset, mantendo flexibilidade para diferentes versões das features
+
+Pré-processamento
+
+Antes do treinamento, os dados passam por um pipeline de preparação:
+
+Variáveis numéricas
+
+imputação de valores ausentes com a mediana
+
+Variáveis categóricas
+
+imputação com o valor mais frequente
+
+codificação com One-Hot Encoding
+
+Esse pré-processamento é implementado com ColumnTransformer e Pipeline, garantindo consistência entre treino e inferência.
+
+Modelo
+
+O script utiliza preferencialmente o modelo XGBoost Classifier, caso a biblioteca esteja instalada.
+
+Parâmetros principais:
+
+n_estimators = 300
+
+max_depth = 4
+
+learning_rate = 0.05
+
+subsample = 0.9
+
+colsample_bytree = 0.9
+
+random_state = 42
+
+Caso o XGBoost não esteja disponível, o script utiliza como alternativa:
+
+HistGradientBoostingClassifier
+
+Essa abordagem garante que o pipeline funcione mesmo sem dependências extras.
+
+Validação
+
+Os dados são divididos em:
+
+75% treino
+
+25% teste
+
+A separação é feita com train_test_split, usando:
+
+random_state = 42
+
+stratify = y
+
+O uso de stratify preserva a proporção entre classes no treino e no teste.
+
+Métricas
+
+O desempenho do modelo é avaliado por duas métricas principais:
+
+AUC (ROC AUC)
+
+Mede a capacidade do modelo de distinguir clientes que adotam investimento daqueles que não adotam.
+
+KS (Kolmogorov-Smirnov)
+
+Mede a separação entre as distribuições de score das classes positiva e negativa, sendo bastante utilizado em contexto bancário e de risco.
+
+Saídas
+Métricas do modelo
+reports/tables/propensity_metrics.csv
+
+Contém:
+
+auc
+
+ks
+
+model
+
+Scores de propensão por cliente
+reports/tables/propensity_scores.csv
+
+Contém:
+
+customer_id
+
+propensity_investment
+
+Cada linha representa a probabilidade prevista de o cliente adotar investimento.
+
+Modelo treinado
+models/propensity_model.pkl
+
+O modelo é salvo com joblib quando a biblioteca está disponível.
+
+Interpretação
+
+O score de propensão permite identificar:
+
+clientes com maior chance de aderir a investimento
+
+segmentos prioritários para campanhas comerciais
+
+oportunidades de cross-sell
+
+perfis com maior potencial de conversão
+
+Na prática, clientes com maior score podem ser priorizados em ações de relacionamento, recomendação de produtos ou estratégias de oferta personalizada.
+
+Resultado esperado
+
+Ao final da etapa, o projeto passa a contar com um modelo supervisionado capaz de:
+
+prever propensão de investimento
+
+ranquear clientes por potencial de conversão
+
+apoiar decisões orientadas por dados em contexto bancário
+
+
+Tem um detalhe importante: **esse texto assume que seu `build_features` já gera colunas como `m12_*` e `m3_*`**.  
+Se o seu arquivo atual ainda estiver com `mean_balance`, `mean_pix`, etc., então o README e o código precisam ficar alinhados.
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 6. Survival (src.survival_model)
 ...
