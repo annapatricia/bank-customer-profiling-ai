@@ -26,6 +26,33 @@ Todos os parâmetros são definidos internamente na classe `Config`:
 
 ### Saída
 O script gera um arquivo CSV em:
+data/raw/transactions_monthly.csv
+
+
+Esse arquivo representa um **painel mensal de clientes**, contendo **uma linha por cliente por mês**.
+
+---
+
+### Principais colunas
+
+| Coluna | Descrição |
+|------|------|
+| `customer_id` | Identificador único do cliente |
+| `age` | Idade do cliente |
+| `income` | Renda estimada do cliente |
+| `month` | Mês da observação |
+| `balance` | Saldo financeiro simulado no mês |
+| `card_spend` | Gasto com cartão no mês |
+| `pix_count` | Número de transações PIX no mês |
+| `credit_limit` | Limite de crédito estimado |
+| `utilization` | Taxa de utilização do crédito |
+| `late_payment` | Indicador de atraso de pagamento |
+| `uses_card` | Indicador de uso de cartão |
+| `uses_credit` | Indicador de uso de crédito |
+| `adopt_investment` | Indicador de adoção de investimento no mês |
+| `time_to_investment` | Tempo até adoção do investimento |
+| `event_investment` | Indica se o cliente adotou investimento |
+| `first_adopt_month` | Primeiro mês em que ocorreu a adoção |
 
 
 ## 2. Feature engineering (src.build_features)
