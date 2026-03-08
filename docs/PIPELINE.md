@@ -554,7 +554,7 @@ Prioridade de leitura:
 
 ```text
 data/processed/customer_features_with_cluster_named.csv
-
+```
 ou, se não existir:
 data/processed/customer_features_with_cluster.csv
 
@@ -566,23 +566,23 @@ Esses arquivos devem ter sido gerados previamente nas etapas de:
 src/build_features
 src/cluster_profiles
 
-Variável de sobrevivência
+### Variável de sobrevivência
 Duração
 time_to_investment — representa o tempo até adoção do investimento, em meses
 
-Evento
+### Evento
 adopted_ever — indica se o cliente adotou investimento durante a janela observada
 
-Interpretação:
+### Interpretação:
 
 1 = evento observado (cliente adotou investimento)
 0 = observação censurada (cliente não adotou no período disponível)
 
-Covariáveis utilizadas
+### Covariáveis utilizadas
 
 O modelo utiliza as covariáveis disponíveis no dataset, priorizando variáveis comportamentais, financeiras e de cluster.
 
-Possíveis variáveis:
+### Possíveis variáveis:
 
 age
 income
@@ -602,7 +602,7 @@ cluster
 
 O script utiliza apenas as colunas que estiverem presentes na base.
 
-Pré-processamento
+### Pré-processamento
 
 Antes do ajuste do modelo:
 as colunas de duração e evento são convertidas para formato numérico
@@ -612,11 +612,11 @@ valores ausentes nas covariáveis são preenchidos com a mediana
 
 Esse tratamento garante consistência para o ajuste do modelo de sobrevivência.
 
-Modelo
+### Modelo
 
 O método utilizado é o Cox Proportional Hazards Model (CoxPHFitter), da biblioteca lifelines.
 
-Parâmetro utilizado:
+### Parâmetro utilizado:
 penalizer = 0.01
 
 O modelo de Cox estima o efeito das variáveis sobre a taxa de risco (hazard) de adoção de investimento ao longo do tempo.
@@ -625,7 +625,7 @@ De forma intuitiva:
 coeficientes positivos indicam maior chance de adoção mais cedo
 coeficientes negativos indicam menor chance de adoção no curto prazo
 
-Previsões geradas
+### Previsões geradas
 Probabilidade de adoção até horizontes específicos
 O script calcula a probabilidade acumulada de adoção até:
 3 meses
@@ -646,7 +646,7 @@ E[T]≈t∑S(t)
 
 Essa métrica resume, em meses, quanto tempo o cliente tende a levar para adotar investimento.
 
-Saídas
+### Saídas
 Probabilidades de adoção por horizonte
 reports/tables/survival_probabilities.csv
 
@@ -682,7 +682,7 @@ models/survival_cox.pkl
 
 O modelo é salvo em formato pickle quando a biblioteca joblib está disponível.
 
-Interpretação
+### Interpretação
 Essa etapa permite responder perguntas como:
 -quais clientes tendem a adotar investimento mais rapidamente
 -quais variáveis aceleram ou retardam a conversão
@@ -694,7 +694,7 @@ Em contexto de negócio, isso pode ser usado para:
 -definição de estratégias de relacionamento
 -análise de ciclo de vida do cliente
 
-Resultado esperado
+### Resultado esperado
 Ao final da etapa, o projeto passa a contar com um modelo capaz de analisar tempo até conversão, complementando o modelo de propensão com uma visão temporal mais rica do comportamento de adoção de investimento.
 
 
