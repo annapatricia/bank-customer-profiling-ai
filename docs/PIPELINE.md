@@ -412,7 +412,7 @@ Variáveis numéricas
 
 Observação: o script utiliza apenas as colunas que estiverem disponíveis no dataset, mantendo flexibilidade para diferentes versões das features
 
-Pré-processamento
+### Pré-processamento
 
 Antes do treinamento, os dados passam por um pipeline de preparação:
 
@@ -428,23 +428,20 @@ codificação com One-Hot Encoding
 
 Esse pré-processamento é implementado com ColumnTransformer e Pipeline, garantindo consistência entre treino e inferência.
 
-Modelo
+### Modelo
 
 O script utiliza preferencialmente o modelo XGBoost Classifier, caso a biblioteca esteja instalada.
 
 Parâmetros principais:
 
-n_estimators = 300
-
-max_depth = 4
-
-learning_rate = 0.05
-
-subsample = 0.9
-
-colsample_bytree = 0.9
-
-random_state = 42
+| Parâmetro        | Valor |
+| ---------------- | ----- |
+| n_estimators     | 300   |
+| max_depth        | 4     |
+| learning_rate    | 0.05  |
+| subsample        | 0.9   |
+| colsample_bytree | 0.9   |
+| random_state     | 42    |
 
 Caso o XGBoost não esteja disponível, o script utiliza como alternativa:
 
@@ -452,7 +449,7 @@ HistGradientBoostingClassifier
 
 Essa abordagem garante que o pipeline funcione mesmo sem dependências extras.
 
-Validação
+### Validação
 
 Os dados são divididos em:
 
@@ -468,7 +465,7 @@ stratify = y
 
 O uso de stratify preserva a proporção entre classes no treino e no teste.
 
-Métricas
+### Métricas
 
 O desempenho do modelo é avaliado por duas métricas principais:
 
@@ -480,7 +477,7 @@ KS (Kolmogorov-Smirnov)
 
 Mede a separação entre as distribuições de score das classes positiva e negativa, sendo bastante utilizado em contexto bancário e de risco.
 
-Saídas
+### Saídas
 Métricas do modelo
 reports/tables/propensity_metrics.csv
 
@@ -508,7 +505,7 @@ models/propensity_model.pkl
 
 O modelo é salvo com joblib quando a biblioteca está disponível.
 
-Interpretação
+### Interpretação
 
 O score de propensão permite identificar:
 
@@ -522,7 +519,7 @@ perfis com maior potencial de conversão
 
 Na prática, clientes com maior score podem ser priorizados em ações de relacionamento, recomendação de produtos ou estratégias de oferta personalizada.
 
-Resultado esperado
+### esperado
 
 Ao final da etapa, o projeto passa a contar com um modelo supervisionado capaz de:
 
