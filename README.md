@@ -139,6 +139,7 @@ pip install -r requirements.txt
 python -m src.generate_data
 python -m src.build_features
 python -m src.cluster_profiles
+```
 
 📁 Estrutura do Projeto
 
