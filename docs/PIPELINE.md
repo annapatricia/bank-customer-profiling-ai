@@ -506,6 +506,11 @@ KS (Kolmogorov-Smirnov)
 
 Mede a separação entre as distribuições de score das classes positiva e negativa, sendo bastante utilizado em contexto bancário e de risco.
 
+| auc  | ks   | model   |
+| ---- | ---- | ------- |
+| 0.81 | 0.47 | XGBoost |
+
+
 ### Saídas
 Métricas do modelo
 reports/tables/propensity_metrics.csv
@@ -533,6 +538,14 @@ Modelo treinado
 models/propensity_model.pkl
 
 O modelo é salvo com joblib quando a biblioteca está disponível.
+
+| customer_id | propensity_investment |
+| ----------- | --------------------- |
+| 1           | 0.72                  |
+| 2           | 0.18                  |
+| 3           | 0.64                  |
+| 4           | 0.09                  |
+
 
 ### Interpretação
 
