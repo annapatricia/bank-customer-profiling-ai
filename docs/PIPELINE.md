@@ -180,6 +180,14 @@ Dataset de clientes com o rótulo numérico do cluster
 data/processed/customer_features_with_cluster_named.csv
 Dataset de clientes com o rótulo numérico e o nome interpretável do cluster
 
+| customer_id | age | income | mean_balance | std_balance | mean_card_spend | mean_utilization | mean_pix | late_payment_rate | cluster | cluster_name              |
+| ----------- | --- | ------ | ------------ | ----------- | --------------- | ---------------- | -------- | ----------------- | ------- | ------------------------- |
+| 1           | 34  | 8500   | 12850        | 1060        | 985             | 0.44             | 19.5     | 0.00              | 2       | Digital Estável           |
+| 2           | 52  | 14000  | 30500        | 2150        | 2100            | 0.38             | 5.0      | 0.00              | 1       | Alta Renda Estável        |
+| 3           | 29  | 6000   | 5200         | 820         | 760             | 0.52             | 24.0     | 0.17              | 0       | Digital Crédito Intensivo |
+| 4           | 45  | 9000   | 15000        | 950         | 1200            | 0.33             | 8.0      | 0.02              | 3       | Conservador Tradicional   |
+
+
 ### Tabelas de resumo
 
 reports/tables/cluster_summary.csv
