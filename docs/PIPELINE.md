@@ -363,7 +363,7 @@ Prioridade de leitura:
 
 ```text
 data/processed/customer_features_with_cluster_named.csv
-
+```
 uma opção alternativa seria:
 ou, caso o arquivo acima não exista:
 Esses arquivos devem ser gerados previamente nas etapas:
@@ -372,7 +372,7 @@ src/build_features
 
 src/cluster_profiles
 
-Target
+### Target
 
 A variável alvo do modelo é:
 
@@ -384,7 +384,7 @@ Trata-se de um problema de classificação binária:
 
 0 = cliente não adotou investimento
 
-Features utilizadas
+### Features utilizadas
 
 O modelo utiliza variáveis numéricas relacionadas ao perfil do cliente, comportamento financeiro e cluster.
 
