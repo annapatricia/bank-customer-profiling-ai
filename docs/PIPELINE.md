@@ -54,6 +54,15 @@ Esse arquivo representa um **painel mensal de clientes**, contendo **uma linha p
 | `event_investment` | Indica se o cliente adotou investimento |
 | `first_adopt_month` | Primeiro mês em que ocorreu a adoção |
 
+Example rows from `transactions_monthly.csv`
+
+```csv
+customer_id,month,age,income,balance,card_spend,pix_count,utilization,late_payment
+1,1,34,8500,12000,950,18,0.42,0
+1,2,34,8500,13500,1020,21,0.46,0
+2,1,52,14000,32000,2200,5,0.38,0
+```
+
 
 ## 2. Feature Engineering (`src/build_features`)
 
