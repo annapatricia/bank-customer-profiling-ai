@@ -556,17 +556,29 @@ apoiar decisões orientadas por dados em contexto bancário
 Tem um detalhe importante: **esse texto assume que seu `build_features` já gera colunas como `m12_*` e `m3_*`**.  
 Se o seu arquivo atual ainda estiver com `mean_balance`, `mean_pix`, etc., então o README e o código precisam ficar alinhados.
 
+## 6. Survival (`src/survival_model`)
+
+### Objetivo
+Modelar o **tempo até a adoção de investimento** por cliente, utilizando análise de sobrevivência.
+
+Essa etapa permite estimar:
+- a probabilidade de um cliente **adotar investimento até determinados horizontes de tempo**
+- o **tempo esperado até adoção**
+- o efeito das variáveis explicativas sobre a velocidade de conversão
+
+É uma abordagem útil quando o interesse não é apenas saber **se** o cliente vai adotar, mas também **quando** isso tende a acontecer.
+
+---
+
+### Entradas
+O script utiliza como base principal a tabela de features por cliente.
+
+Prioridade de leitura:
+
+```text
+data/processed/customer_features_with_cluster_named.csv
 
 
 
 
-
-
-
-
-
-
-
-
-## 6. Survival (src.survival_model)
 ...
