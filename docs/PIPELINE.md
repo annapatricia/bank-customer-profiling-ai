@@ -116,6 +116,18 @@ data/processed/customer_features.csv
 
 As variáveis selecionadas para clusterização são:
 
+| Feature           | Descrição                                  |
+| ----------------- | ------------------------------------------ |
+| age               | Idade do cliente                           |
+| income            | Renda estimada do cliente                  |
+| mean_balance      | Saldo médio ao longo do período            |
+| std_balance       | Variabilidade do saldo                     |
+| mean_card_spend   | Gasto médio com cartão                     |
+| mean_utilization  | Utilização média do crédito                |
+| mean_pix          | Número médio de transações PIX             |
+| late_payment_rate | Proporção de meses com atraso de pagamento |
+
+
 
 |variáveis | Descrição |
 |-------|-------|
