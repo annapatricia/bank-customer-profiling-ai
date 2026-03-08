@@ -389,23 +389,26 @@ Trata-se de um problema de classificação binária:
 O modelo utiliza variáveis numéricas relacionadas ao perfil do cliente, comportamento financeiro e cluster.
 
 Variáveis numéricas
-Feature	Tipo	Descrição
-age	Numérica	Idade do cliente
-income	Numérica	Renda estimada do cliente
-m12_mean_balance	Numérica	Saldo médio dos últimos 12 meses
-m12_std_balance	Numérica	Variabilidade do saldo nos últimos 12 meses
-m12_mean_card_spend	Numérica	Gasto médio com cartão nos últimos 12 meses
-m12_mean_utilization	Numérica	Utilização média do crédito nos últimos 12 meses
-m12_mean_pix	Numérica	Número médio de transações PIX nos últimos 12 meses
-m12_late_payment_rate	Numérica	Proporção de atrasos nos últimos 12 meses
-m3_mean_balance	Numérica	Saldo médio dos últimos 3 meses
-m3_std_balance	Numérica	Variabilidade do saldo nos últimos 3 meses
-m3_mean_card_spend	Numérica	Gasto médio com cartão nos últimos 3 meses
-m3_mean_utilization	Numérica	Utilização média do crédito nos últimos 3 meses
-m3_mean_pix	Numérica	Número médio de transações PIX nos últimos 3 meses
-m3_late_payment_rate	Numérica	Proporção de atrasos nos últimos 3 meses
-cluster	Numérica	Identificador do cluster do cliente
-cluster_name	Categórica (opcional)	Nome interpretável do perfil de cluster
+
+| Feature               | Tipo                  | Descrição                                           |
+| --------------------- | --------------------- | --------------------------------------------------- |
+| age                   | Numérica              | Idade do cliente                                    |
+| income                | Numérica              | Renda estimada do cliente                           |
+| m12_mean_balance      | Numérica              | Saldo médio dos últimos 12 meses                    |
+| m12_std_balance       | Numérica              | Variabilidade do saldo nos últimos 12 meses         |
+| m12_mean_card_spend   | Numérica              | Gasto médio com cartão nos últimos 12 meses         |
+| m12_mean_utilization  | Numérica              | Utilização média do crédito nos últimos 12 meses    |
+| m12_mean_pix          | Numérica              | Número médio de transações PIX nos últimos 12 meses |
+| m12_late_payment_rate | Numérica              | Proporção de atrasos nos últimos 12 meses           |
+| m3_mean_balance       | Numérica              | Saldo médio dos últimos 3 meses                     |
+| m3_std_balance        | Numérica              | Variabilidade do saldo nos últimos 3 meses          |
+| m3_mean_card_spend    | Numérica              | Gasto médio com cartão nos últimos 3 meses          |
+| m3_mean_utilization   | Numérica              | Utilização média do crédito nos últimos 3 meses     |
+| m3_mean_pix           | Numérica              | Número médio de transações PIX nos últimos 3 meses  |
+| m3_late_payment_rate  | Numérica              | Proporção de atrasos nos últimos 3 meses            |
+| cluster               | Numérica              | Identificador do cluster do cliente                 |
+| cluster_name          | Categórica (opcional) | Nome interpretável do perfil de cluster             |
+
 
 Observação: o script utiliza apenas as colunas que estiverem disponíveis no dataset, mantendo flexibilidade para diferentes versões das features
 
