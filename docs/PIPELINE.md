@@ -134,6 +134,7 @@ Antes do treinamento, essas features passam por padronização com StandardScale
 
 ### **Modelo**
 
+
 Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
 
 n_clusters = 4
