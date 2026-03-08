@@ -1,6 +1,6 @@
 # Pipeline do Projeto — Bank Product Usage Profiling (AI)
 
-## 1. Geração de dados (`src/generate_data`)
+## 1. Geração de dados (`src/generate_data`) 
 
 ### Objetivo
 Gerar uma base **sintética de transações mensais de clientes bancários**, simulando:
@@ -144,19 +144,18 @@ Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
 
 O modelo divide os clientes em 4 clusters, atribuindo cada cliente ao grupo cujo centroide seja mais próximo no espaço das features padronizadas.
 
-Métrica
+### Métrica
 
 A qualidade da clusterização é avaliada pela métrica Silhouette Score, calculada sobre os dados padronizados.
 
 Essa métrica mede o quanto os clientes estão:
 
-próximos do próprio cluster
-
-distantes dos demais clusters
+-próximos do próprio cluster
+-distantes dos demais clusters
 
 Quanto maior o valor, melhor a separação entre os grupos.
 
-Saídas
+### Saídas
 
 O script gera os seguintes arquivos:
 
@@ -168,7 +167,7 @@ Dataset de clientes com o rótulo numérico do cluster
 data/processed/customer_features_with_cluster_named.csv
 Dataset de clientes com o rótulo numérico e o nome interpretável do cluster
 
-Tabelas de resumo
+### Tabelas de resumo
 
 reports/tables/cluster_summary.csv
 Médias das variáveis por cluster
@@ -176,7 +175,7 @@ Médias das variáveis por cluster
 reports/tables/cluster_profile_cards.csv
 Tabela com nome do perfil, quantidade de clientes e descrição interpretativa
 
-Relatórios em Markdown
+### Relatórios em Markdown
 
 reports/cluster_report.md
 Relatório resumido da clusterização, incluindo o valor de silhouette e a tabela de médias por cluster
@@ -184,7 +183,7 @@ Relatório resumido da clusterização, incluindo o valor de silhouette e a tabe
 reports/cluster_profile_cards.md
 Cartões descritivos dos perfis identificados
 
-Interpretação dos clusters
+### Interpretação dos clusters
 
 Após a clusterização, os grupos recebem nomes descritivos com base em heurísticas simples sobre renda, risco, uso digital e uso de crédito.
 
@@ -202,17 +201,14 @@ Alto uso digital combinado com baixa inadimplência. Perfil promissor para expan
 Conservador Tradicional
 Uso digital mais moderado e baixo risco. Perfil mais tradicional, com boa aderência a produtos simples e ações de educação financeira.
 
-Resultado esperado
+### Resultado esperado
 
 Ao final da etapa, cada cliente passa a ter um perfil comportamental identificado, facilitando:
 
-segmentação de base
-
-personalização de ofertas
-
-análise estratégica de clientes
-
-apoio à tomada de decisão orientada por dados
+-segmentação de base
+-personalização de ofertas
+-análise estratégica de clientes
+-apoio à tomada de decisão orientada por dados
 
 ## 4. Cadeias de Markov (`src/markov_transitions`)
 
