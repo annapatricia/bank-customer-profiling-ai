@@ -105,6 +105,11 @@ Cada linha representa **um cliente**, contendo features agregadas que descrevem 
 | `adopted_ever` | Indicador se o cliente adotou investimento em algum momento |
 | `time_to_investment` | Tempo até adoção do investimento (em meses) |
 
+| customer_id | age | income | mean_balance | std_balance | mean_card_spend | mean_utilization | mean_pix | late_payment_rate | adopted_ever | time_to_investment |
+| ----------- | --- | ------ | ------------ | ----------- | --------------- | ---------------- | -------- | ----------------- | ------------ | ------------------ |
+| 1           | 34  | 8500   | 12850        | 1060        | 985             | 0.44             | 19.5     | 0.00              | 1            | 6                  |
+| 2           | 52  | 14000  | 30500        | 2150        | 2100            | 0.38             | 5.0      | 0.00              | 0            | 12                 |
+| 3           | 29  | 6000   | 5200         | 820         | 760             | 0.52             | 24.0     | 0.17              | 1            | 8                  |
 
 
 ## 3. Clusterização (`src/cluster_profiles`)
