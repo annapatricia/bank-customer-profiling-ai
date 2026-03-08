@@ -130,7 +130,9 @@ As variáveis selecionadas para clusterização são:
 
 Antes do treinamento, essas features passam por padronização com StandardScaler, etapa essencial para métodos baseados em distância, como o K-Means, garantindo que variáveis em escalas diferentes não dominem a formação dos grupos.
 
-### Modelo
+---
+
+### **Modelo**
 
 Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
 
