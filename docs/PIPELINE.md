@@ -724,6 +724,14 @@ models/survival_cox.pkl
 
 O modelo é salvo em formato pickle quando a biblioteca joblib está disponível.
 
+| customer_id | p_adopt_3m | p_adopt_6m | p_adopt_9m |
+| ----------- | ---------- | ---------- | ---------- |
+| 1           | 0.12       | 0.28       | 0.41       |
+| 2           | 0.05       | 0.11       | 0.19       |
+| 3           | 0.18       | 0.36       | 0.52       |
+| 4           | 0.03       | 0.07       | 0.14       |
+
+
 ### Interpretação
 Essa etapa permite responder perguntas como:
 -quais clientes tendem a adotar investimento mais rapidamente
