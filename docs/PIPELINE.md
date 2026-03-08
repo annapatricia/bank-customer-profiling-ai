@@ -116,21 +116,16 @@ data/processed/customer_features.csv
 
 As variáveis selecionadas para clusterização são:
 
-age
-
-income
-
-mean_balance
-
-std_balance
-
-mean_card_spend
-
-mean_utilization
-
-mean_pix
-
-late_payment_rate
+|variáveis | Descrição |
+|-------|-------|
+| age | Idade do cliente |
+| income | Renda estimada do cliente |
+| mean_balance | Saldo médio ao longo do período |
+| std_balance | Variabilidade do saldo |
+| mean_card_spend | Gasto médio com cartão |
+| mean_utilization | Utilização média do crédito |
+| mean_pix | Número médio de transações PIX |
+| late_payment_rate | Proporção de meses com atraso de pagamento |
 
 Antes do treinamento, essas features passam por padronização com StandardScaler, etapa essencial para métodos baseados em distância, como o K-Means, garantindo que variáveis em escalas diferentes não dominem a formação dos grupos.
 
