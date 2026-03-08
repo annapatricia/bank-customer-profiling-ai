@@ -147,6 +147,61 @@ data/
 reports/
 docs/
 
+## Business Value
+
+Este projeto demonstra como técnicas de **Data Science e Machine Learning** podem apoiar decisões estratégicas no setor bancário, especialmente na análise de comportamento e ciclo de vida de clientes.
+
+A solução integra diferentes abordagens analíticas para responder perguntas relevantes para instituições financeiras:
+
+### 1. Segmentação de Clientes
+Através de **clusterização (K-Means)**, os clientes são agrupados em perfis comportamentais com base em:
+
+- renda
+- saldo
+- uso de cartão
+- comportamento digital (PIX)
+- risco de atraso
+
+Isso permite identificar segmentos como:
+- clientes de alta renda
+- usuários intensivos de crédito
+- perfis digitais
+- clientes conservadores
+
+### 2. Dinâmica de Comportamento (Markov Chains)
+As **cadeias de Markov** permitem modelar como clientes transitam entre perfis ao longo do tempo.
+
+Isso ajuda a responder perguntas como:
+- clientes estão migrando para perfis mais digitais?
+- quais segmentos são mais estáveis?
+- quais perfis apresentam maior mudança comportamental?
+
+### 3. Propensão à Adoção de Investimentos
+Um modelo supervisionado estima a **probabilidade de cada cliente aderir a produtos de investimento**.
+
+Esse tipo de modelo é amplamente usado em bancos para:
+- campanhas de cross-sell
+- recomendação de produtos
+- priorização comercial
+
+### 4. Tempo até Conversão (Survival Analysis)
+O modelo de **survival analysis (Cox Proportional Hazards)** estima o tempo esperado até a adoção de investimento.
+
+Isso permite prever:
+- quando clientes tendem a converter
+- quais fatores aceleram ou retardam a adoção
+- quais segmentos possuem maior potencial de conversão no curto prazo
+
+### Aplicações no mundo real
+
+Esse tipo de pipeline pode ser utilizado por instituições financeiras para:
+
+- segmentação de clientes
+- otimização de campanhas de marketing
+- recomendação de produtos financeiros
+- análise de ciclo de vida do cliente
+- planejamento estratégico baseado em dados
+
 💼 Aplicação no Contexto Bancário
 
 Essa arquitetura permite:
