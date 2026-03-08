@@ -134,14 +134,13 @@ Antes do treinamento, essas features passam por padronização com StandardScale
 
 ### Modelo
 
-
 Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
 
-n_clusters = 4
-
-n_init = 20
-
-random_state = 42
+| Parâmetro    | Valor | Descrição                             |
+| ------------ | ----- | ------------------------------------- |
+| n_clusters   | 4     | Número de clusters do K-Means         |
+| n_init       | 20    | Número de inicializações do algoritmo |
+| random_state | 42    | Semente para reprodutibilidade        |
 
 O modelo divide os clientes em 4 clusters, atribuindo cada cliente ao grupo cujo centroide seja mais próximo no espaço das features padronizadas.
 
