@@ -148,6 +148,19 @@ data/
 reports/
 docs/
 
+## Projeto
+
+bank-customer-profiling-ai
+│
+├── data
+│   ├── raw
+│   └── processed
+│
+├── src
+├── models
+├── reports
+└── README.md
+
 ## Business Value
 
 Este projeto demonstra como técnicas de **Data Science e Machine Learning** podem apoiar decisões estratégicas no setor bancário, especialmente na análise de comportamento e ciclo de vida de clientes.
