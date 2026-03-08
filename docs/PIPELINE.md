@@ -336,6 +336,14 @@ Exemplo:
 #### Matriz de probabilidades de transição
 reports/tables/markov_transition_matrix.csv
 
+| state | 0    | 1    | 2    | 3    |
+| ----- | ---- | ---- | ---- | ---- |
+| 0     | 0.62 | 0.10 | 0.22 | 0.06 |
+| 1     | 0.08 | 0.74 | 0.12 | 0.06 |
+| 2     | 0.18 | 0.11 | 0.63 | 0.08 |
+| 3     | 0.05 | 0.07 | 0.14 | 0.74 |
+
+
 
 Cada linha representa um **estado atual (cluster)** e cada coluna o **estado seguinte**, contendo as probabilidades:
 
