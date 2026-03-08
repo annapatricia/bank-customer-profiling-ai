@@ -126,13 +126,13 @@ As variáveis selecionadas para clusterização são:
 | mean_utilization  | Utilização média do crédito                |
 | mean_pix          | Número médio de transações PIX             |
 | late_payment_rate | Proporção de meses com atraso de pagamento |
-
+```
 
 Antes do treinamento, essas features passam por padronização com StandardScaler, etapa essencial para métodos baseados em distância, como o K-Means, garantindo que variáveis em escalas diferentes não dominem a formação dos grupos.
 
 ---
 
-### **Modelo**
+### Modelo
 
 
 Foi utilizado o algoritmo K-Means, com os seguintes parâmetros:
