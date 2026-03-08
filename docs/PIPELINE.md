@@ -578,6 +578,147 @@ Prioridade de leitura:
 ```text
 data/processed/customer_features_with_cluster_named.csv
 
+ou, se não existir:
+data/processed/customer_features_with_cluster.csv
+
+ou, como fallback:
+data/processed/customer_features.csv
+
+Esses arquivos devem ter sido gerados previamente nas etapas de:
+
+src/build_features
+src/cluster_profiles
+
+Variável de sobrevivência
+Duração
+time_to_investment — representa o tempo até adoção do investimento, em meses
+
+Evento
+adopted_ever — indica se o cliente adotou investimento durante a janela observada
+
+Interpretação:
+
+1 = evento observado (cliente adotou investimento)
+0 = observação censurada (cliente não adotou no período disponível)
+
+Covariáveis utilizadas
+
+O modelo utiliza as covariáveis disponíveis no dataset, priorizando variáveis comportamentais, financeiras e de cluster.
+
+Possíveis variáveis:
+
+age
+income
+m12_mean_balance
+m12_std_balance
+m12_mean_card_spend
+m12_mean_utilization
+m12_mean_pix
+m12_late_payment_rate
+m3_mean_balance
+m3_std_balance
+m3_mean_card_spend
+m3_mean_utilization
+m3_mean_pix
+m3_late_payment_rate
+cluster
+
+O script utiliza apenas as colunas que estiverem presentes na base.
+
+Pré-processamento
+
+Antes do ajuste do modelo:
+as colunas de duração e evento são convertidas para formato numérico
+as covariáveis também são convertidas para tipo numérico
+linhas com duração ausente são removidas
+valores ausentes nas covariáveis são preenchidos com a mediana
+
+Esse tratamento garante consistência para o ajuste do modelo de sobrevivência.
+
+Modelo
+
+O método utilizado é o Cox Proportional Hazards Model (CoxPHFitter), da biblioteca lifelines.
+
+Parâmetro utilizado:
+penalizer = 0.01
+
+O modelo de Cox estima o efeito das variáveis sobre a taxa de risco (hazard) de adoção de investimento ao longo do tempo.
+
+De forma intuitiva:
+coeficientes positivos indicam maior chance de adoção mais cedo
+coeficientes negativos indicam menor chance de adoção no curto prazo
+
+Previsões geradas
+Probabilidade de adoção até horizontes específicos
+O script calcula a probabilidade acumulada de adoção até:
+3 meses
+6 meses
+9 meses
+
+A partir da função de sobrevivência 𝑆(𝑡), a probabilidade de adoção até o tempo 
+𝑡 é dada por:
+
+𝑃(𝑇≤𝑡)=1−𝑆(𝑡)
+P(T≤t)=1−S(t)
+
+Tempo esperado até adoção
+O script também estima o tempo esperado até adoção, aproximando:
+
+𝐸[𝑇]≈∑𝑡𝑆(𝑡)
+E[T]≈t∑S(t)
+
+Essa métrica resume, em meses, quanto tempo o cliente tende a levar para adotar investimento.
+
+Saídas
+Probabilidades de adoção por horizonte
+reports/tables/survival_probabilities.csv
+
+Contém:
+customer_id
+p_adopt_3m
+p_adopt_6m
+p_adopt_9m
+
+Tempo esperado até adoção
+reports/tables/survival_expected_time.csv
+
+Contém:
+customer_id
+expected_time_months
+
+Resumo dos coeficientes do modelo de Cox
+reports/tables/survival_cox_summary.csv
+
+Contém estatísticas do modelo, incluindo:
+coeficientes
+erro padrão
+estatística de teste
+p-valor
+
+Relatório em Markdown
+reports/survival_report.md
+
+Traz um resumo do modelo, covariáveis utilizadas e os coeficientes mais relevantes.
+
+Modelo salvo
+models/survival_cox.pkl
+
+O modelo é salvo em formato pickle quando a biblioteca joblib está disponível.
+
+Interpretação
+Essa etapa permite responder perguntas como:
+-quais clientes tendem a adotar investimento mais rapidamente
+-quais variáveis aceleram ou retardam a conversão
+-qual a probabilidade de adoção em diferentes horizontes de tempo
+-quais perfis apresentam maior potencial de conversão no curto prazo
+Em contexto de negócio, isso pode ser usado para:
+-planejamento de campanhas por janela temporal
+-priorização comercial
+-definição de estratégias de relacionamento
+-análise de ciclo de vida do cliente
+
+Resultado esperado
+Ao final da etapa, o projeto passa a contar com um modelo capaz de analisar tempo até conversão, complementando o modelo de propensão com uma visão temporal mais rica do comportamento de adoção de investimento.
 
 
 
